@@ -1,0 +1,114 @@
+/* src/components/Auth.css */
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch; /* Stretch both the form and image to be the same height */
+  height: 100vh;
+  background-color: #f7f7f7;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+.auth-form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 50%; /* Make sure form takes up the left half of the screen */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensure form elements are spread out */
+}
+
+.auth-image {
+  width: 50%; /* Make sure image takes up the right half of the screen */
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-image img {
+  width: 100%; /* Make the image fill the right half */
+  object-fit: cover; /* Ensures the image is cropped to fit properly */
+  height: 100%; /* Ensure the image doesn't stretch beyond its container */
+}
+
+.auth-form h2 {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.auth-form input {
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.auth-form button {
+  width: 100%; /* Make all buttons take full width of the form */
+  padding: 10px;
+  background-color: #f8fcf8;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.auth-form button:hover {
+  background-color: rgb(135, 208, 221);
+}
+
+/* Style for Google and Facebook buttons */
+.google-button,
+.facebook-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Adds space between the logo and the text */
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  width: 100%; /* Make both buttons take up the full width of the form */
+  cursor: pointer;
+  box-sizing: border-box; /* Ensure the padding is accounted for within the width */
+}
+
+.google-button:hover,
+.facebook-button:hover {
+  background-color: #f1f1f1; /* Light hover effect */
+}
+
+.logo {
+  width: 20px;
+  height: 20px;
+}
+
+.center-text {
+  text-align: center; /* Centers the text within this container */
+  margin: 20px 0; /* Optional: Adds space above and below */
+}
+
+.center-text p {
+  margin: 0;
+}
+
+.forgot-password-link {
+  text-align: right;
+  display: block; /* Makes the link a block element */
+  color: #007bff; /* Blue color */
+  text-decoration: none; /* Removes underline */
+  margin-top: 10px; /* Adds space above */
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline; /* Underlines the link on hover */
+}
+
+.subtitle {
+  color: #888; /* Grey color */
+  font-size: 16px; /* Optional: Adjust font size */
+  margin-bottom: 10px; /* Adds space below the text */
+}
