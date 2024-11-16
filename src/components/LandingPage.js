@@ -26,7 +26,7 @@ const LandingPage = () => {
                 </div>
 
                 <div className="parallelogram w-1/2">
-
+                
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@ import React from 'react'
 
 const Orange = () => {
   return (
-    <div className='bg-yellow w-28 text-sm p-1 rounded-sm flex justify-center items-center font-semibold'>
+    <div className='bg-yellow w-[90px] px-4 py-1 text-sm rounded-sm flex justify-center items-center font-semibold'>
         LIFESTYLE
     </div>
   )
