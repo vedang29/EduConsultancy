@@ -4,6 +4,13 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap');
+/* Import Roboto from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap'); */
+.font-roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
 
 *{
   margin: 0;
@@ -46,7 +53,7 @@
 
 .card{
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
-  transform: scale(0.9);
+  transform: scale(0.95);
 }
 .line{
   width: full;
@@ -62,6 +69,34 @@
 .pcard:hover{
   box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
   transform: translateY(-10px) scale(0.9);
+}
+
+.lable{
+  transform: scale(0.8);
+}
+
+.navbtn{
+  transition: 0.2s all;
+}
+.navbtn:hover{
+  transform: translateY(-5px) scale(1.05);
+}
+
+.pricingcard{
+  transition: 0.2s all;
+  transform: scale(0.9);
+  width: 30%;
+  margin: 0;
+  padding: 22px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+.pricingcard:hover{
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+  transform: translateY(-10px) scale(0.9);
+}
+
+.boxshadow{
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
 /* 
 body {

@@ -33,7 +33,7 @@ const Signup = () => {
           </div>
 
           <div>
-          <Link to="/home">
+          <Link to="/verify">
             <button className="bg-dark text-white flex justify-center items-center p-3 rounded-xl w-full btnhover mt-4 mb-4">
               Sign in
             </button>

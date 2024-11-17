@@ -34,7 +34,7 @@ const Signin = () => {
               Forgot Password?
             </button>
 
-            <Link to="/home">
+            <Link to="/verify">
             <button className="bg-dark text-white flex justify-center items-center p-3 rounded-xl w-full btnhover">
               Sign in
             </button>
