@@ -19,14 +19,14 @@ const Navbar = () => {
                 <a href="#pricing">
                     <button className="px-6 py-2 rounded-lg font-semibold navbtn">Pricing</button>
                 </a>
-                <a href="#blogs">
+                {/* <a href="#blogs">
                     <button className="px-6 py-2 rounded-lg font-semibold navbtn">Blogs</button>
                 </a>
                 <a href="#contact">
                     <button className="px-6 py-2 rounded-lg font-semibold navbtn">Contact</button>
                 </a>
                 <button className="px-6 py-2 rounded-lg font-semibold navbtn">Feedback</button>
-                <button className="px-6 py-2 rounded-lg font-semibold navbtn">Account</button>
+                <button className="px-6 py-2 rounded-lg font-semibold navbtn">Account</button> */}
             </div>
         
             <div className="flex items-center space-x-2">

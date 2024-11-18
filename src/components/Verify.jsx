@@ -1,31 +1,117 @@
-import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
-import GoogleLogo from "../assets/Google.png";
-import FacebookLogo from "../assets/Facebook.png";
+import React, { useRef, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom'; 
 import ArtImage from "../assets/Art.jpg";
+import { verifyOtp } from '../services/user-service'; 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
 
 const Verify = () => {
-    const inputRefs = useRef([]);
+    const location = useLocation(); 
+    const email = location.state?.email; 
+
+    const inputRefs = useRef([]); 
+    const [otp, setOtp] = useState(['', '', '', '', '', '']); 
+    const [error, setError] = useState(''); 
+    const [isLoading, setIsLoading] = useState(false); 
+
+    useEffect(() => {
+        if (!email) {
+            toast.error("No email found. Redirecting to Signup...");
+            window.location.href = '/signup'; 
+        }
+    }, [email]);
 
     const handleInputChange = (e, index) => {
         const value = e.target.value;
+        const newOtp = [...otp];
 
-        // Only accept numeric input and move focus to the next box
         if (/^\d$/.test(value)) {
+            newOtp[index] = value;
+            setOtp(newOtp);
+
             if (index < inputRefs.current.length - 1) {
                 inputRefs.current[index + 1].focus();
             }
         } else {
-            e.target.value = ''; // Clear invalid input
+            e.target.value = ''; 
         }
     };
 
     const handleKeyDown = (e, index) => {
-        // Handle backspace
-        if (e.key === 'Backspace' && index > 0 && !e.target.value) {
-            inputRefs.current[index - 1].focus();
+        if (e.key === 'Backspace') {
+            if (index > 0 && !e.target.value) {
+                const newOtp = [...otp];
+                newOtp[index] = ''; 
+                setOtp(newOtp);
+                inputRefs.current[index - 1].focus(); 
+            } else if (e.target.value) {
+                const newOtp = [...otp];
+                newOtp[index] = ''; 
+                setOtp(newOtp);
+            }
         }
     };
+
+    // Inside the Verify component
+const navigate = useNavigate();
+
+const handleVerifyClick = async () => {
+    setIsLoading(true);
+    setError('');
+
+    const otpData = otp.join('');
+
+    if (otpData.length !== 6) {
+        setError('OTP must be a 6-digit code.');
+        toast.warn("OTP must be a 6-digit code.", { position: "top-right", autoClose: 3000 });
+        setIsLoading(false);
+        return;
+    }
+
+    if (!email) {
+        setError('Email is missing. Please try again.');
+        toast.error("Email is missing. Please try again.", { position: "top-right", autoClose: 3000 });
+        setIsLoading(false);
+        return;
+    }
+
+    const data = {
+        email: email,
+        verificationCode: otpData,
+    };
+
+    // Show loader toast
+    const toastId = toast.loading("Verifying OTP...");
+
+    try {
+        console.log('Sending data:', data);
+        await verifyOtp(data);
+
+        // Update the toast to success
+        toast.update(toastId, {
+            render: "OTP verified successfully! Redirecting to Sign In...",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+        });
+
+        navigate('/signin'); // Redirects to the Sign In page
+    } catch (error) {
+        console.error('Verification failed:', error.response?.data || error.message);
+        setError('OTP verification failed. Please try again.');
+
+        // Update the toast to error
+        toast.update(toastId, {
+            render: "OTP verification failed. Please try again.",
+            type: "error",
+            isLoading: false,
+            autoClose: 5000,
+        });
+    } finally {
+        setIsLoading(false);
+    }
+};
 
     return (
         <div className="max-w-7xl h-screen mx-auto flex justify-around">
@@ -34,14 +120,16 @@ const Verify = () => {
                     <div className="text-3xl font-semibold mb-4">
                         Enter Verification Code
                     </div>
-                    <div>
-                        <div className="text-md mb-2">Enter the 6-digit code sent to your email</div>
+                    <div className="text-md mb-2">
+                        Enter the 6-digit code sent to your email
                     </div>
 
                     <div className="mt-10">
                         <form className="flex flex-col">
                             <div>
-                                <label htmlFor="otp" className="font-semibold text-sm">6-digit code</label>
+                                <label htmlFor="otp" className="font-semibold text-sm">
+                                    6-digit code
+                                </label>
                             </div>
                             <div className="flex gap-2 mt-3">
                                 {[...Array(6)].map((_, index) => (
@@ -50,9 +138,10 @@ const Verify = () => {
                                             type="text"
                                             maxLength="1"
                                             className="p-2 rounded-lg text-sm bg-lightblue w-10 h-10 text-center inputborder"
-                                            ref={el => (inputRefs.current[index] = el)}
+                                            ref={(el) => (inputRefs.current[index] = el)}
                                             onChange={(e) => handleInputChange(e, index)}
                                             onKeyDown={(e) => handleKeyDown(e, index)}
+                                            value={otp[index]} 
                                             required
                                         />
                                     </div>
@@ -60,6 +149,8 @@ const Verify = () => {
                             </div>
                         </form>
                     </div>
+
+                    {error && <div className="text-red-600 text-sm mb-4">{error}</div>}
 
                     <div>
                         <div className="flex justify-center items-center">
@@ -69,29 +160,15 @@ const Verify = () => {
                             </button>
                         </div>
 
-                        <Link to="/home">
-                            <button className="bg-dark text-white flex justify-center items-center p-3 rounded-xl w-full btnhover">
-                                Verify
-                            </button>
-                        </Link>
-
-                        <div className="flex justify-center items-center mt-12">
-                            <div className="h-[2px] w-full bg-grey rounded-full"></div>
-                            <div className="ml-2 mr-2 font-semibold"> Or </div>
-                            <div className="h-[2px] w-full bg-grey rounded-full"></div>
-                        </div>
-
-                        <div className="mt-8">
-                            <button className="flex text-black bg-grey items-center justify-center text-center font-semibold p-3 rounded-xl w-full mb-4 btnhover">
-                                <img src={GoogleLogo} alt="Google logo" className="logo" />
-                                <div className="ml-2 flex justify-center text-center">Sign in with Google</div>
-                            </button>
-                        </div>
-                        <div>
-                            <button className="flex text-black bg-grey items-center justify-center text-center font-semibold p-3 rounded-xl w-full btnhover">
-                                <img src={FacebookLogo} alt="Facebook logo" className="logo" /> Sign in with Facebook
-                            </button>
-                        </div>
+                        <button
+                            className={`bg-dark text-white flex justify-center items-center p-3 rounded-xl w-full btnhover ${
+                                isLoading ? 'opacity-50' : ''
+                            }`}
+                            onClick={handleVerifyClick}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? 'Verifying...' : 'Verify'}
+                        </button>
                     </div>
                 </div>
             </div>
