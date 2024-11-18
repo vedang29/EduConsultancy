@@ -17,12 +17,11 @@
   padding: 0;
 }
 .btnhover {
-  transition: transform 0.2s ease; /* Add smooth transition */
-  radius : 40px;
+  transition: transform 0.2s ease; 
 }
 
 .btnhover:hover {
-  transform: scale(1.05); /* Scale the element on hover */
+  transform: scale(1.05); 
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
@@ -35,15 +34,15 @@
 }
 
 .parallelogram {
-  width: 50%; /* Ensure it takes up full width of the right side */
-  background-image: url('./assets/hero.png'); /* Set your image URL here */
-  background-size: contain; /* Ensure the entire image is visible */
-  background-position: center; /* Center the background image */
-  background-repeat: no-repeat; /* Ensure the image doesn't repeat */
-  display: flex; /* Flex for centering text or content */
+  width: 50%;
+  background-image: url('./assets/hero.png'); 
+  background-size: contain; 
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex; 
   justify-content: center;
   align-items: center;
-  color: white; /* Text color inside parallelogram */
+  color: white; 
 }
 
 
