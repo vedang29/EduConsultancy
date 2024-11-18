@@ -6,21 +6,21 @@ export const signUp = (user) => {
 
 export const verifyOtp = async (otpData) => {
     try {
-        // Debugging: Log the data being sent
+
         console.log("Data being sent to backend:", otpData);
 
         const response = await myAxios.post('/auth/verify', otpData, {
             headers: {
-                'Content-Type': 'application/json', // Ensure JSON format
+                'Content-Type': 'application/json', 
             },
         });
 
-        // Debugging: Log the response from the backend
+
         console.log("Response from backend:", response.data);
 
         return response.data;
     } catch (error) {
-        // Debugging: Log detailed error information
+     
         console.error("OTP Verification Error:", error.response?.data || error.message);
         throw error;
     }
@@ -29,7 +29,7 @@ export const verifyOtp = async (otpData) => {
 export const signin = async (data) => {
     try {
       const response = await myAxios.post('/auth/login', data);
-      return response.data; // Token or user data
+      return response.data; // Token
     } catch (error) {
       throw error.response ? error.response.data : { message: "Server error" };
     }
