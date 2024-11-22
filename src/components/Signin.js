@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signin } from "../services/user-service"; // Import the signin function
+import { signin } from "../services/user-service"; 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import GoogleLogo from "../assets/Google.png";
-import FacebookLogo from "../assets/Facebook.png";
 import ArtImage from "../assets/Art.jpg";
 import { useAuth } from "../hooks/useAuth";
 
@@ -12,11 +10,21 @@ const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth(); // Access login function from AuthContext
+  const { login } = useAuth(); 
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+
+    // Check if both email and password are filled in
+    if (!email || !password) {
+      toast.error("Please fill in both email and password.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return; 
+    }
+
     setIsLoading(true);
 
     try {
@@ -26,11 +34,22 @@ const Signin = () => {
         autoClose: 3000,
       });
 
-      // Call login to set user in context and localStorage
+   
       login(response.token);
 
-      // Immediately redirect to home
-      navigate("/home", { replace: true });
+      // Handle user redirection based on role
+      const userRole = response.user.role; // Get role from the user object
+
+      if (userRole === "USER") {
+        navigate("/home", { replace: true });
+      } else if (userRole === "ADMIN") {
+        navigate("/adminDashboard", { replace: true });
+      } else if (userRole === "CONSULTANT") {
+        navigate("/consultantDashboard", { replace: true });
+      } else {
+        // Default or error case, redirect to home or show an error
+        navigate("/home", { replace: true });
+      }
     } catch (error) {
       toast.error(error.message || "Sign-in failed. Please try again.", {
         position: "top-right",
@@ -39,6 +58,11 @@ const Signin = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Handle Forgot Password click
+  const handleForgotPassword = () => {
+    navigate("/verify", { replace: true }); 
   };
 
   return (
@@ -87,35 +111,19 @@ const Signin = () => {
 
               <button
                 type="submit"
-                className={`bg-dark text-white flex justify-center items-center p-3 rounded-xl w-full btnhover mt-4 ${
-                  isLoading ? "opacity-50" : ""
-                }`}
+                className={`bg-dark text-white flex justify-center items-center p-3 rounded-xl w-full btnhover mt-4 ${isLoading ? "opacity-50" : ""}`}
                 disabled={isLoading}
               >
                 {isLoading ? "Signing in..." : "Sign in"}
               </button>
             </form>
-          </div>
 
-          <button className="text-blue-800 font-semibold text-right mt-4 mb-4 ml-auto">
-            Forgot Password?
-          </button>
-
-          <div className="flex justify-center items-center mt-12">
-            <div className="h-[2px] w-full bg-grey rounded-full"></div>
-            <div className="ml-2 mr-2 font-semibold"> Or </div>
-            <div className="h-[2px] w-full bg-grey rounded-full"></div>
-          </div>
-
-          <div className="mt-8">
-            <button className="flex text-black bg-grey items-center justify-center text-center font-semibold p-3 rounded-xl w-full mb-4 btnhover">
-              <img src={GoogleLogo} alt="Google logo" className="logo" />
-              <div className="ml-2 flex justify-center text-center">Sign in with Google</div>
-            </button>
-          </div>
-          <div>
-            <button className="flex text-black bg-grey items-center justify-center text-center font-semibold p-3 rounded-xl w-full btnhover">
-              <img src={FacebookLogo} alt="Facebook logo" className="logo" /> Sign in with Facebook
+            {/* Forgot Password button */}
+            <button
+              onClick={handleForgotPassword}
+              className="text-blue-800 font-semibold text-right mt-4 mb-4 ml-auto"
+            >
+              Forgot Password?
             </button>
           </div>
         </div>

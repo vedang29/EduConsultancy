@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import GoogleLogo from "../assets/Google.png";
-import FacebookLogo from "../assets/Facebook.png";
 import ArtImage from "../assets/Art.jpg";
 import { signUp } from "../services/user-service";
 import { toast } from "react-toastify";
@@ -9,8 +7,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    name: "",
     email: "",
+    username: "",
     password: "",
   });
 
@@ -26,31 +25,52 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!formData.username || !formData.email || !formData.password) {
+  
+    // Validation: Ensure all fields are filled
+    const { name, email, username, password } = formData;
+    if (!name || !email || !username || !password) {
       toast.warn("Please fill out all fields.", {
         position: "top-right",
         autoClose: 3000,
       });
       return;
     }
-
-    const loader = toast.loading("Sending OTP...");
-
+  
+    // Validate email domain is @gmail.com
+    if (!email.endsWith("@gmail.com")) {
+      toast.warn("Please enter a valid Gmail address.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
+  
+    // Password length validation
+    if (password.length < 8) {
+      toast.warn("Password must be at least 8 characters long.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
+  
+    const loader = toast.loading("Creating account...");
+  
     signUp(formData)
-      .then((resp) => {
+      .then(() => {
         toast.update(loader, {
-          render: "Signup successful! Please check your email for the OTP.",
+          render: "Signup successful! Redirecting to login.",
           type: "success",
           isLoading: false,
           autoClose: 5000,
           position: "top-right",
         });
-        navigate("/verify", { state: { email: formData.email } });
+        navigate("/signin"); // Redirect to login on success
       })
       .catch((error) => {
+        console.error("Error during signup:", error.response?.data || error.message);
         toast.update(loader, {
-          render: "Signup failed. Please try again.",
+          render: error.response?.data?.message || "Signup failed. Please try again.",
           type: "error",
           isLoading: false,
           autoClose: 5000,
@@ -58,7 +78,8 @@ const Signup = () => {
         });
       });
   };
-
+  
+  
   return (
     <div className="max-w-7xl h-screen mx-auto flex justify-around">
       <div className="w-1/2 flex flex-col justify-center items-center">
@@ -71,23 +92,25 @@ const Signup = () => {
 
           <div className="mt-10">
             <form className="flex flex-col" onSubmit={handleSubmit}>
+              {/* Name Field */}
               <div>
-                <label htmlFor="username" className="font-semibold text-sm">
-                  Username
+                <label htmlFor="name" className="font-semibold text-sm">
+                  Name
                 </label>
               </div>
               <div className="mb-4">
                 <input
                   type="text"
-                  id="username"
-                  name="username"
-                  placeholder="Enter username"
+                  id="name"
+                  name="name"
+                  placeholder="Enter full name"
                   className="p-2 rounded-lg text-sm bg-lightblue w-full inputborder"
-                  value={formData.username}
+                  value={formData.name}
                   onChange={handleChange}
                 />
               </div>
 
+              {/* Email Field */}
               <div>
                 <label htmlFor="email" className="font-semibold text-sm">
                   Email
@@ -105,6 +128,25 @@ const Signup = () => {
                 />
               </div>
 
+              {/* Username Field */}
+              <div>
+                <label htmlFor="username" className="font-semibold text-sm">
+                  Username
+                </label>
+              </div>
+              <div className="mb-4">
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Enter username"
+                  className="p-2 rounded-lg text-sm bg-lightblue w-full inputborder"
+                  value={formData.username}
+                  onChange={handleChange}
+                />
+              </div>
+
+              {/* Password Field */}
               <div>
                 <label htmlFor="password" className="font-semibold text-sm">
                   Password
@@ -129,25 +171,6 @@ const Signup = () => {
                 Sign up
               </button>
             </form>
-          </div>
-
-          <div className="flex justify-center items-center mt-12">
-            <div className="h-[2px] w-full bg-grey rounded-full"></div>
-            <div className="ml-2 mr-2 font-semibold"> Or </div>
-            <div className="h-[2px] w-full bg-grey rounded-full"></div>
-          </div>
-
-          <div className="mt-8">
-            <button className="flex text-black bg-grey items-center justify-center text-center font-semibold p-3 rounded-xl w-full mb-4 btnhover">
-              <img src={GoogleLogo} alt="Google logo" className="logo" />
-              <div className="ml-2 flex justify-center text-center">Sign in with Google</div>
-            </button>
-          </div>
-          <div>
-            <button className="flex text-black bg-grey items-center justify-center text-center font-semibold p-3 rounded-xl w-full btnhover">
-              <img src={FacebookLogo} alt="Facebook logo" className="logo" />
-              <div className="ml-2 flex justify-center text-center">Sign in with Facebook</div>
-            </button>
           </div>
         </div>
       </div>

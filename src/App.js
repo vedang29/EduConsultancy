@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './hooks/useAuth';
 
+
 function App() {
   return (
     <AuthProvider>
