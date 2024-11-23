@@ -43,7 +43,7 @@ const Signin = () => {
       if (userRole === "USER") {
         navigate("/home", { replace: true });
       } else if (userRole === "ADMIN") {
-        navigate("/adminDashboard", { replace: true });
+        navigate("/admin/dashboard", { replace: true });
       } else if (userRole === "CONSULTANT") {
         navigate("/consultantDashboard", { replace: true });
       } else {
