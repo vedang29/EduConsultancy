@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Nav from '../Utilities/Nav';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getAllBlogs } from '../../services/blog-service'; // Import getAllBlogs from your service
 
 const Blogs = () => {
     const [blogs, setBlogs] = useState([]); // State to store blogs
@@ -10,38 +11,15 @@ const Blogs = () => {
 
     useEffect(() => {
         const fetchBlogs = async () => {
-            const accessToken = localStorage.getItem('accessToken'); // Fetch accessToken from localStorage
-
-            if (!accessToken) {
-                setError('No access token found.');
-                toast.error('No access token found. Please log in again.');
-                setLoading(false);
-                return;
-            }
-
             try {
-                const response = await fetch('http://localhost:8080/api/blog/all', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include' // Make sure to include credentials
-                });
-                
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch blogs');
-                }
-
-                const data = await response.json();
-                setBlogs(data); // Update state with blogs data
+                const blogs = await getAllBlogs(); // Use the helper method
+                setBlogs(blogs); // Update state with blogs data
                 toast.success('Blogs loaded successfully!');
-                setLoading(false);
             } catch (err) {
-                setError(err.message);
-                toast.error(`Error: ${err.message}`);
-                setLoading(false);
+                setError(err.message || 'Failed to fetch blogs.');
+                toast.error(`Error: ${err.message || 'Failed to fetch blogs.'}`);
+            } finally {
+                setLoading(false); // Set loading to false regardless of success or failure
             }
         };
 
