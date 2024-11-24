@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './hooks/useAuth';
 import AdminDashboard from './components/adminDashboard';
-
+import Adminblogs from './components/Admin Pages/Blogs'
 
 function App() {
   return (
@@ -92,6 +92,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AdminDashboard/>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/blogs"
+            element={
+              <ProtectedRoute>
+                <Adminblogs/>
               </ProtectedRoute>
             }
           />

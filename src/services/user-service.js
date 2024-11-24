@@ -12,30 +12,56 @@ export const signUp = (user) => {
     return myAxios.post('api/auth/register', user).then((response) => response.data);
 };
 
-// SignIn Method
+
+// // SignIn Method
+// export const signin = async (data) => {
+//     try {
+//         // Make the login request
+//         const response = await myAxios.post('api/auth/login', data);
+        
+//         // Save tokens to localStorage
+//         localStorage.setItem('accessToken', response.data.accessToken);
+//         localStorage.setItem('refreshToken', response.data.refreshToken);
+
+//         // Get user details after login
+//         const userResponse = await myAxios.get('/api/auth/me', {
+//             headers: {
+//                 Authorization: `Bearer ${response.data.accessToken}`
+//             }
+//         });
+
+//         // Return both token and user details
+//         return { ...response.data, user: userResponse.data };
+//     } catch (error) {
+//         // Handle errors from the API
+//         throw error.response ? error.response.data : { message: "Server error" };
+//     }
+// };
 export const signin = async (data) => {
     try {
-        // Make the login request
+        // Make the login request with email and password
         const response = await myAxios.post('api/auth/login', data);
-        
-        // Save tokens to localStorage
-        localStorage.setItem('accessToken', response.data.accessToken);
-        localStorage.setItem('refreshToken', response.data.refreshToken);
+        const { accessToken, refreshToken } = response.data;
 
-        // Get user details after login
+        // Save tokens in localStorage
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+
+        // After successful login, retrieve user details using the accessToken
         const userResponse = await myAxios.get('/api/auth/me', {
             headers: {
-                Authorization: `Bearer ${response.data.accessToken}`
-            }
+                Authorization: `Bearer ${accessToken}`,
+            },
         });
 
-        // Return both token and user details
-        return { ...response.data, user: userResponse.data };
+        // Return both tokens and user details
+        return { accessToken, refreshToken, user: userResponse.data };
     } catch (error) {
-        // Handle errors from the API
+        // Handle errors
         throw error.response ? error.response.data : { message: "Server error" };
     }
 };
+
 
 // Method to request OTP (send to email)
 export const sendOtp = async (email) => {
@@ -73,5 +99,25 @@ export const changePassword = async (email, password, repeatPassword) => {
     } catch (error) {
         // Handle errors and provide custom error messages
         throw new Error(error.response?.data?.message || "Password change failed");
+    }
+};
+
+
+export const getUserDetails = async () => {
+    const accessToken = localStorage.getItem('accessToken');  // Retrieve the access token
+
+    if (!accessToken) {
+        throw new Error('No access token found');
+    }
+
+    try {
+        const response = await myAxios.get('/api/auth/me', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,  // Attach the access token to the request header
+            }
+        });
+        return response.data;  // Return user data
+    } catch (error) {
+        throw error;  // Handle error, possibly return a default error message
     }
 };
