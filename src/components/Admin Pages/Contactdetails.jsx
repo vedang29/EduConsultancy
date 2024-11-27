@@ -1,35 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // To access route params
-import { getContactById } from '../../services/contact-service'; // Importing the service to get contact by ID
+import { useParams } from 'react-router-dom'; 
+import { getContactById } from '../../services/contact-service';
 import Nav from '../Utilities/Nav';
 
 const ContactDetails = () => {
-    const { id } = useParams(); // Get the contact ID from the URL
-    const [contact, setContact] = useState(null); // State to store contact details
-    const [loading, setLoading] = useState(true); // State to handle loading state
-    const [error, setError] = useState(null); // State to handle error state
+    const { id } = useParams(); 
+    const [contact, setContact] = useState(null);
+    const [loading, setLoading] = useState(true); 
+    const [error, setError] = useState(null); 
 
-    // Fetch contact details on component mount
+
     useEffect(() => {
         const fetchContact = async () => {
             try {
-                setLoading(true); // Set loading to true while fetching
-                const fetchedContact = await getContactById(id); // Fetch the contact using the ID
-                setContact(fetchedContact); // Set the fetched contact data to state
+                setLoading(true); 
+                const fetchedContact = await getContactById(id);
+                setContact(fetchedContact); 
             } catch (error) {
-                setError(error.message); // Set error message if fetching fails
+                setError(error.message);
             } finally {
-                setLoading(false); // Set loading to false after fetching
+                setLoading(false); 
             }
         };
 
         fetchContact();
-    }, [id]); // Re-run the effect when the contact ID changes
+    }, [id]); 
 
-    if (loading) return <div>Loading...</div>; // Show loading message while fetching
-    if (error) return <div>Error: {error}</div>; // Show error message if there's an issue
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>; 
 
-    if (!contact) return <div>Contact not found</div>; // If contact data is not found
+    if (!contact) return <div>Contact not found</div>; 
 
     return (
         <div className="max-w-7xl h-screen mx-auto flex flex-col gap-5">

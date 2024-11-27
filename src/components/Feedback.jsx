@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Nav from './Utilities/Nav';
-import { getUserId, sendFeedbackMessage } from '../services/feedback-service'; // Importing feedback service
-import { toast } from 'react-toastify'; // Importing toast
-import 'react-toastify/dist/ReactToastify.css'; // Import toast CSS
+import { getUserId, sendFeedbackMessage } from '../services/feedback-service'; 
+import { toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const Feedback = () => {
   const [name, setName] = useState('');
@@ -11,19 +11,19 @@ const Feedback = () => {
   const [feedback, setFeedback] = useState('');
 
   const handleSendFeedback = async (event) => {
-    event.preventDefault(); // Prevent form from reloading the page
+    event.preventDefault(); 
 
-    // Validate form fields
+ 
     if (!name || !email || !phone || !feedback) {
       toast.error('All fields are required');
-      return; // Stop if validation fails
+      return;
     }
 
     try {
-      // Step 1: Fetch user ID from /api/auth/me
+
       const userId = await getUserId();
 
-      // Step 2: Create the feedback object
+
       const feedbackData = {
         userId: userId,
         name: name,
@@ -32,21 +32,21 @@ const Feedback = () => {
         message: feedback,
       };
 
-      // Step 3: Send the feedback to /api/feedbacks
+
       await sendFeedbackMessage(feedbackData);
 
-      // Reset the form fields after sending the feedback
+ 
       setName('');
       setEmail('');
       setPhone('');
       setFeedback('');
 
-      // Show a success toast
+
       toast.success('Feedback sent successfully!');
     } catch (error) {
       console.error('Error in sending feedback:', error);
 
-      // Show an error toast
+
       toast.error('Failed to send feedback. Please try again later.');
     }
   };
