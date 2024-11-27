@@ -73,4 +73,3 @@ export const deleteBlog = async (blogId) => {
         throw new Error(errorMessage);  // Propagate the error with a more useful message
     }
 };
-

@@ -18,6 +18,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './hooks/useAuth';
 import AdminDashboard from './components/adminDashboard';
 import Adminblogs from './components/Admin Pages/Blogs'
+import Admincontacts from './components/Admin Pages/Contacts'
+import Adminfeedbacks from './components/Admin Pages/Feedbacks'
+import Admincontactdetails from "./components/Admin Pages/Contactdetails"
 
 function App() {
   return (
@@ -100,6 +103,30 @@ function App() {
             element={
               <ProtectedRoute>
                 <Adminblogs/>
+              </ProtectedRoute>
+            }
+          />
+           <Route
+            path="/admin/contacts"
+            element={
+              <ProtectedRoute>
+                <Admincontacts/>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/feedbacks"
+            element={
+              <ProtectedRoute>
+                <Adminfeedbacks/>
+              </ProtectedRoute>
+            }
+          />
+           <Route
+           path="/admin/contacts/:id" 
+            element={
+              <ProtectedRoute>
+                <Admincontactdetails/>
               </ProtectedRoute>
             }
           />

@@ -36,6 +36,14 @@ const AdminDashboard = () => {
         navigate('/admin/blogs');  // Redirect to /blogs page
     };
 
+    const goToContacts = () => {
+        navigate('/admin/contacts');  // Redirect to /blogs page
+    };
+
+    const goToFeedbacks = () =>{
+        navigate('/admin/feedbacks')
+    }
+
     if (loading) {
         return <div>Loading...</div>;  // Display loading message while fetching data
     }
@@ -88,10 +96,10 @@ const AdminDashboard = () => {
                 <div className="flex justify-center items-center gap-10 p-4 qbtn" onClick={goToBlogs}>  {/* Add onClick handler */}
                     <div className="font-semibold text-lg">Blogs</div>
                 </div>
-                <div className="flex justify-center items-center gap-10 p-4 qbtn">
-                    <div className="font-semibold text-lg">Comments</div>
+                <div className="flex justify-center items-center gap-10 p-4 qbtn"  onClick={goToContacts}>
+                    <div className="font-semibold text-lg">Contacts</div>
                 </div>
-                <div className="flex justify-center items-center gap-10 p-4 qbtn">
+                <div className="flex justify-center items-center gap-10 p-4 qbtn"  onClick={goToFeedbacks}>
                     <div className="font-semibold text-lg">Feedback</div>
                 </div>
             </div>
