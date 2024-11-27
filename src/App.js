@@ -21,6 +21,7 @@ import Adminblogs from './components/Admin Pages/Blogs'
 import Admincontacts from './components/Admin Pages/Contacts'
 import Adminfeedbacks from './components/Admin Pages/Feedbacks'
 import Admincontactdetails from "./components/Admin Pages/Contactdetails"
+import Adminfeedbackdetails from "./components/Admin Pages/Feedbackdetails"
 
 function App() {
   return (
@@ -127,6 +128,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Admincontactdetails/>
+              </ProtectedRoute>
+            }
+          />
+           <Route
+           path="/admin/feedbacks/:id" 
+            element={
+              <ProtectedRoute>
+                <Adminfeedbackdetails/>
               </ProtectedRoute>
             }
           />

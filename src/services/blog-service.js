@@ -73,3 +73,22 @@ export const deleteBlog = async (blogId) => {
         throw new Error(errorMessage);  // Propagate the error with a more useful message
     }
 };
+
+
+// Method to update an existing blog
+export const updateBlog = async (blogId, formData) => {
+    try {
+        const token = localStorage.getItem('accessToken');
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+        const response = await myAxios.put(`/api/blog/update/${blogId}`, formData, {
+            headers: {
+                ...headers,
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || "Failed to update the blog");
+    }
+};

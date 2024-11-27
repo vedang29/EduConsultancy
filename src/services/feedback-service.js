@@ -82,3 +82,24 @@ export const deleteFeedback = async (feedbackId) => {
     throw new Error('Failed to delete feedback');
   }
 };
+
+
+export const getFeedbackById = async (feedbackId) => {
+  try {
+    const token = localStorage.getItem('accessToken'); 
+    if (!token) {
+      throw new Error('No access token found');
+    }
+
+    const response = await myAxios.get(`/api/feedbacks/${feedbackId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+
+    return response.data; 
+  } catch (error) {
+    console.error('Error fetching feedback details:', error);
+    throw new Error('Unable to fetch feedback details');
+  }
+};
