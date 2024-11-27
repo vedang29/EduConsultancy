@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import {useNavigate } from 'react-router-dom'; // Import navigation utilities
+import {useNavigate } from 'react-router-dom'; 
 import Nav from '../Utilities/Nav';
-import { getContacts, deleteContact } from '../../services/contact-service'; // Importing contact service
-import { toast } from 'react-toastify'; // Importing toast
-import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for toast notifications
+import { getContacts, deleteContact } from '../../services/contact-service'; 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 import plus from '../../assets/plus.png';
 
 const Contacts = () => {
-  const [contacts, setContacts] = useState([]); // State to hold contacts
-  const [search, setSearch] = useState(''); // State to hold search term
-  const [showForm, setShowForm] = useState(false); // State for form visibility
-  const navigate = useNavigate(); // For programmatic navigation
+  const [contacts, setContacts] = useState([]); 
+  const [search, setSearch] = useState(''); 
+  const [showForm, setShowForm] = useState(false); 
+  const navigate = useNavigate(); 
 
-  // Function to fetch contacts
+
   const fetchContacts = async () => {
     try {
-      const fetchedContacts = await getContacts(); // Fetch contacts from API
-      setContacts(fetchedContacts); // Update state with contacts
+      const fetchedContacts = await getContacts(); 
+      setContacts(fetchedContacts);
     } catch (error) {
       toast.error('Failed to fetch contacts');
     }
   };
 
-  // Function to handle delete
+
   const handleDeleteContact = async (contactId) => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this contact?'
@@ -30,25 +30,25 @@ const Contacts = () => {
     if (!confirmDelete) return;
 
     try {
-      await deleteContact(contactId); // Call the delete contact API
-      setContacts(contacts.filter((contact) => contact.contactId !== contactId)); // Remove contact from state
+      await deleteContact(contactId); 
+      setContacts(contacts.filter((contact) => contact.contactId !== contactId)); 
       toast.success('Contact deleted successfully');
     } catch (error) {
       toast.error('Failed to delete contact');
     }
   };
 
-  // Handle Search
+
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
   };
 
-  // Fetch contacts when component mounts
+ 
   useEffect(() => {
     fetchContacts();
   }, []);
 
-  // Filter contacts based on search query
+ 
   const filteredContacts = contacts.filter(
     (contact) =>
       contact.email.toLowerCase().includes(search.toLowerCase()) ||
@@ -56,7 +56,7 @@ const Contacts = () => {
       contact.subject.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Handle row click navigation
+
   const handleRowClick = (contactId) => {
     navigate(`/admin/contacts/${contactId}`);
   };

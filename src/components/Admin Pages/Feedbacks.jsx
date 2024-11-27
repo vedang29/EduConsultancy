@@ -1,47 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import Nav from '../Utilities/Nav';
-import { getFeedbacks, deleteFeedback } from '../../services/feedback-service'; // Updated service import
-import { toast } from 'react-toastify'; // Importing toast
-import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for toast notifications
+import { getFeedbacks, deleteFeedback } from '../../services/feedback-service'; 
+import { toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
 import plus from '../../assets/plus.png';
 
 const Feedbacks = () => {
-  const [feedbacks, setFeedbacks] = useState([]); // State to hold feedbacks
-  const [search, setSearch] = useState(''); // State to hold search term
-  const [showForm, setShowForm] = useState(false); // State for form visibility
+  const [feedbacks, setFeedbacks] = useState([]); 
+  const [search, setSearch] = useState(''); 
+  const [showForm, setShowForm] = useState(false); 
 
-  // Function to fetch feedbacks
+
   const fetchFeedbacks = async () => {
     try {
-      const fetchedFeedbacks = await getFeedbacks(); // Fetch feedbacks from API
-      setFeedbacks(fetchedFeedbacks); // Update state with feedbacks
+      const fetchedFeedbacks = await getFeedbacks(); 
+      setFeedbacks(fetchedFeedbacks);
     } catch (error) {
       toast.error('Failed to fetch feedbacks');
     }
   };
 
-  // Function to handle delete
+  
   const handleDeleteFeedback = async (feedbackId) => {
     try {
-      await deleteFeedback(feedbackId); // Call the delete feedback API
-      setFeedbacks(feedbacks.filter(feedback => feedback.feedbackId !== feedbackId)); // Remove feedback from state
+      await deleteFeedback(feedbackId); 
+      setFeedbacks(feedbacks.filter(feedback => feedback.feedbackId !== feedbackId)); 
       toast.success('Feedback deleted successfully');
     } catch (error) {
       toast.error('Failed to delete feedback');
     }
   };
 
-  // Handle Search
+ 
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
   };
 
-  // Fetch feedbacks when component mounts
+  
   useEffect(() => {
     fetchFeedbacks();
   }, []);
 
-  // Filter feedbacks based on search query
+
   const filteredFeedbacks = feedbacks.filter(feedback =>
     feedback.email.toLowerCase().includes(search.toLowerCase()) ||
     feedback.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -68,7 +68,7 @@ const Feedbacks = () => {
           />
         </div>
 
-        {/* Plus Button to Toggle Form */}
+  
         <div className="bg-dark flex justify-center items-center p-3 rounded-full plushover" onClick={() => setShowForm(!showForm)}>
           <img
             src={plus} // Update with actual plus icon path
@@ -78,14 +78,13 @@ const Feedbacks = () => {
         </div>
       </div>
 
-      {/* Render Form based on showForm state */}
+
       {showForm && (
         <div className="fixed inset-0 bg-[black] bg-opacity-70 z-50 flex justify-center items-center">
-          {/* Your Blogform Component or other form can go here */}
         </div>
       )}
 
-      {/* Feedbacks Table */}
+
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto">
           <thead>
