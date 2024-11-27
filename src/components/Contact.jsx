@@ -16,7 +16,7 @@ const Contact = () => {
     // Validate form fields
     if (!name || !email || !subject || !message) {
       toast.error('All fields are required');
-      return; // Stop if validation fails
+      return; 
     }
 
     try {
