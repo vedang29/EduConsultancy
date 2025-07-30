@@ -2,6 +2,12 @@
 
 A full-stack platform designed to streamline educational consultancy services, built with **React** for the frontend and **Spring Boot** for the backend. The platform supports user management, feedback, product and blog management, subscription handling, and integrates key functionalities like email notifications and payment gateways.
 
+> 🚀 **Live Site**: [https://educonsultancy-frontend.vercel.app](https://educonsultancy-frontend.vercel.app)  
+> 🌐 **Backend API**: Deployed on **Render**  
+> 🛢️ **Database**: Hosted on **Railway**
+
+---
+
 ## Features
 
 ### Admin Features
@@ -17,21 +23,25 @@ A full-stack platform designed to streamline educational consultancy services, b
 - **Password Reset**: Secure OTP-based email recovery system.
 - **Notifications**: Real-time toast notifications for feedback, updates, and purchases.
 
+---
+
 ## Tech Stack
 
 ### Frontend
 - **React**: Interactive UI and state management.
 - **React Toastify**: Real-time notifications.
 - **Axios**: API integration.
+- **Vercel**: Frontend deployment.
 
 ### Backend
 - **Spring Boot**: RESTful API design and service implementation.
 - **Spring Security**: Authentication and authorization.
 - **JPA & Hibernate**: Database ORM.
 - **Email Services**: OTP-based reset and transactional notifications.
+- **Render**: Backend deployment.
 
 ### Database
-- **MySQL**: Structured data storage and management.
+- **MySQL (Railway)**: Structured data storage and management.
 
 ### Payment Integration
-- **Razorpay API**: Seamless payment gateway.
+- **Razorpay API**: Seamless payment gateway integration for subscription services.
